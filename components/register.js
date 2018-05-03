@@ -25,8 +25,8 @@ submit= () => {
         emailAddress: this.state.emailAddress,
         state: this.state.emailAddress,
         lga: this.state.lga,
-        currentAddress = this.state.currentAddress,
-        training = this.state.training
+        currentAddress :this.state.currentAddress,
+        training : this.state.training
     }
     if (name = ''){
         alert ('Please fill in your name');
@@ -70,13 +70,34 @@ submit= () => {
     return (
       <View style={styles.regForm}>
       <Text style = {styles.header}> Registration </Text>
-        <TextInput style = {styles.textInput} placeholder= "Name" underlineColorAndriod = {'transparent'} onChangeText = {name => this.setState(name)} />
-        <TextInput style = {styles.textInput} placeholder= "Phone number" underlineColorAndriod = {'transparent'} onChangeText = {name => this.setState(phoneNumber)} />
-        <TextInput style = {styles.textInput} placeholder= "Email address" underlineColorAndriod = {'transparent'} onChangeText = {name => this.setState(emailAddress)} />
-        <TextInput style = {styles.textInput} placeholder= "State" underlineColorAndriod = {'transparent'} onChangeText = {name => this.setState(state)} />
-        <TextInput style = {styles.textInput} placeholder= "Lga" underlineColorAndriod = {'transparent'} onChangeText = {name => this.setState(lga)} />
-        <TextInput style = {styles.textInput} placeholder= "Current Address" underlineColorAndriod = {'transparent'} onChangeText = {name => this.setState(currentAddress)} />
-        <TextInput style = {styles.textInput} placeholder= "Area of training" underlineColorAndriod = {'transparent'} onChangeText = {name => this.setState(training)} />
+        <TextInput style = {styles.textInput} placeholder= "Name" underlineColorAndriod = {'transparent'}
+         onChangeText = {name => this.setState({name})} 
+         value = {this.state.name}
+         />
+        <TextInput style = {styles.textInput} placeholder= "Phone number" underlineColorAndriod = {'transparent'} 
+        onChangeText = {phoneNumber => this.setState({phoneNumber})}
+        value = {this.state.phoneNumber}
+         />
+        <TextInput style = {styles.textInput} placeholder= "Email address" underlineColorAndriod = {'transparent'} 
+        onChangeText = {emailAddress => this.setState({emailAddress})} 
+        value = {this.state.emailAddress}
+        />
+        <TextInput style = {styles.textInput} placeholder= "State" underlineColorAndriod = {'transparent'} 
+        onChangeText = {state => this.setState({state})}
+        value = {this.state.state}
+         />
+        <TextInput style = {styles.textInput} placeholder= "Lga" underlineColorAndriod = {'transparent'} 
+        onChangeText = {lga => this.setState(lga)}
+        value = {this.state.lga} 
+        />
+        <TextInput style = {styles.textInput} placeholder= "Current Address" underlineColorAndriod = {'transparent'} 
+        onChangeText = {currentAddress => this.setState({currentAddress})}
+        value = {this.state.currentAddress}
+         />
+        <TextInput style = {styles.textInput} placeholder= "Area of training" underlineColorAndriod = {'transparent'} 
+        onChangeText = {training => this.setState({training})}
+        value = {this.state.training}
+         />
         <TouchableOpacity style={styles.button} onPress = {this.submit}>
         <Text style = {styles.btntext}> Sign Up </Text>
         </TouchableOpacity>
