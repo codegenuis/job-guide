@@ -27,7 +27,7 @@ submit= () => {
         currentAddress: this.state.currentAddress,
         training : this.state.training
     }
-    if (this.state.name = ''){
+    if (this.state.name == null || ''){
         alert ('Please fill in your name');
     }
     
@@ -37,16 +37,16 @@ submit= () => {
    else if (!filter.test(this.state.emailAddress)){
         alert ('Please fill in your email');
     }
-   else if (this.state.state = ''){
+   else if (this.state.state == ''){
         alert ('Please fill in your stat');
     }
-    else if (this.state.lga = ''){
+    else if (this.state.lga == ''){
         alert ('Please fill in your name lga');
     }
-    else if (this.state.currentAddress = ''){
-        alert ('Please fill in your name currentaddress');
+    else if (this.state.currentAddress == ''){
+        alert ('Please fill in your currentaddress');
     }
-    else if (this.state.training = ''){
+    else if (this.state.training == ''){
         alert ('Please fill in your area of training');
     }
 
@@ -62,6 +62,7 @@ submit= () => {
         .then(res => console.log(res))
         .catch(err => console.log(err) )
         alert ('Details submitted');
+        this.state.name = '';
         }
     }
 
@@ -92,7 +93,7 @@ submit= () => {
          />
         <TextInput style = {styles.textInput} placeholder= "Current Address" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({currentAddress: text})}
-        value = {this.state.lga} />
+        value = {this.state.currentAddress} />
         <TextInput style = {styles.textInput} placeholder= "Area of training" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({training: text})}
         value = {this.state.training}
