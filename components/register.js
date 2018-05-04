@@ -1,7 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { connect } from 'react-redux';
+import { createUser } from '../actions/postActions';
+import PropTypes from 'prop-types';
 
-export default class Register extends React.Component {
+class Register extends React.Component {
     constructor(props){
     super(props);
     this.state = {
@@ -27,42 +30,19 @@ submit= () => {
         currentAddress: this.state.currentAddress,
         training : this.state.training
     }
-    if (this.state.name == null || ''){
-        alert ('Please fill in your name');
+    if (this.state.name == '' || this.state.phoneNumber == '' || this.state.emailAddress == '' || this.state.state == '' || this.state.currentAddress == '' || this.state.training == '' ){
+        alert ('Please fill in your Details');
     }
-    
     else if (!reg.test(this.state.phoneNumber)){
         alert ('Invalid number');
     }
-   else if (!filter.test(this.state.emailAddress)){
+    else if (!filter.test(this.state.emailAddress)){
         alert ('Please fill in your email');
     }
-   else if (this.state.state == ''){
-        alert ('Please fill in your stat');
-    }
-    else if (this.state.lga == ''){
-        alert ('Please fill in your name lga');
-    }
-    else if (this.state.currentAddress == ''){
-        alert ('Please fill in your currentaddress');
-    }
-    else if (this.state.training == ''){
-        alert ('Please fill in your area of training');
-    }
-
-    else{
-        fetch('https://emplug-usersapi.herokuapp.com/user',{
-        method: 'POST',
-        headers: {
-            'content-type' : 'application/json'
-        },
-        body: JSON.stringify(post)
-        })
-        .then(res => res.json())
-        .then(res => console.log(res))
-        .catch(err => console.log(err) )
-        alert ('Details submitted');
-        this.state.name = '';
+     else{
+         this.props.createUser(post);
+         alert ('Details submitted');
+         this.state.name = '';
         }
     }
 
@@ -74,29 +54,37 @@ submit= () => {
         <TextInput style = {styles.textInput} placeholder= "Name" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({name: text})}
         value= {this.state.name}
+        placeholderTextColor="#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Phone number" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({phoneNumber: text})}
-        valuen = {this.state.phoneNumber}
+        value = {this.state.phoneNumber}
+        placeholderTextColor="#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Email address" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({emailAddress: text})} 
         value = {this.state.emailAddress}
+        placeholderTextColor="#fff"
         />
         <TextInput style = {styles.textInput} placeholder= "State" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({state: text})}
         value = {this.state.state}
+        placeholderTextColor="#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Lga" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({lga: text})}
         value= {this.state.lga}
+        placeholderTextColor="#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Current Address" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({currentAddress: text})}
-        value = {this.state.currentAddress} />
+        value = {this.state.currentAddress} 
+        placeholderTextColor="#fff"
+        />
         <TextInput style = {styles.textInput} placeholder= "Area of training" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({training: text})}
         value = {this.state.training}
+        placeholderTextColor="#fff"
          />
         <TouchableOpacity style={styles.button} onPress = { () => this.submit()}>
         <Text style = {styles.btntext}> Sign Up </Text>
@@ -139,3 +127,9 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
   }
 });
+
+Register.propTypes = {
+    createUser: PropTypes.func.isRequired
+};
+
+export default connect (null, { createUser })(Register);
