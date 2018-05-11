@@ -27,8 +27,8 @@ submit= () => {
         currentAddress: this.state.currentAddress,
         training : this.state.training
     }
-    if (this.state.name == null || ''){
-        alert ('Please fill in your name');
+    if (this.state.name ==  '' || this.state.phoneNumber == '' || this.state.emailAddress == '' || this.state.state == '' || this.state.lga == '' || this.state.currentAddress =='' || this.state.training == ''){
+        alert ('Please fill in your Details');
     }
     
     else if (!reg.test(this.state.phoneNumber)){
@@ -37,19 +37,6 @@ submit= () => {
    else if (!filter.test(this.state.emailAddress)){
         alert ('Please fill in your email');
     }
-   else if (this.state.state == ''){
-        alert ('Please fill in your stat');
-    }
-    else if (this.state.lga == ''){
-        alert ('Please fill in your name lga');
-    }
-    else if (this.state.currentAddress == ''){
-        alert ('Please fill in your currentaddress');
-    }
-    else if (this.state.training == ''){
-        alert ('Please fill in your area of training');
-    }
-
     else{
         fetch('https://emplug-usersapi.herokuapp.com/user',{
         method: 'POST',
@@ -74,22 +61,28 @@ submit= () => {
         <TextInput style = {styles.textInput} placeholder= "Name" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({name: text})}
         value= {this.state.name}
+        placeholderTextColor = "#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Phone number" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({phoneNumber: text})}
         valuen = {this.state.phoneNumber}
+         placeholderTextColor = "#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Email address" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({emailAddress: text})} 
         value = {this.state.emailAddress}
+         placeholderTextColor = "#fff"
         />
         <TextInput style = {styles.textInput} placeholder= "State" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({state: text})}
-        value = {this.state.state}
+        value = {this.state.state} 
+        placeholderTextColor = "#fff"
+
          />
         <TextInput style = {styles.textInput} placeholder= "Lga" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({lga: text})}
         value= {this.state.lga}
+         placeholderTextColor = "#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Current Address" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({currentAddress: text})}
@@ -97,6 +90,7 @@ submit= () => {
         <TextInput style = {styles.textInput} placeholder= "Area of training" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({training: text})}
         value = {this.state.training}
+         placeholderTextColor = "#fff"
          />
         <TouchableOpacity style={styles.button} onPress = { () => this.submit()}>
         <Text style = {styles.btntext}> Sign Up </Text>
@@ -106,6 +100,7 @@ submit= () => {
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   regForm: {
