@@ -1,7 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Picker } from 'react-native';
+import {Select, Option} from "react-native-chooser";
+import { connect } from 'react-redux';
+import { createUser } from '../actions/postActions';
+import PropTypes from 'prop-types';
 
-export default class Register extends React.Component {
+class Register extends React.Component {
     constructor(props){
     super(props);
     this.state = {
@@ -11,10 +15,13 @@ export default class Register extends React.Component {
         state: '',
         lga: '',
         currentAddress: '',
-        training: '',
+        training: 'choose a training',
 
     }
 }
+onSelect(value, label) {
+    this.setState({training : value});
+  }
 submit= () => {
     const filter = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const reg = /^-?\d+\.?\d*$/;
@@ -27,29 +34,19 @@ submit= () => {
         currentAddress: this.state.currentAddress,
         training : this.state.training
     }
-    if (this.state.name ==  '' || this.state.phoneNumber == '' || this.state.emailAddress == '' || this.state.state == '' || this.state.lga == '' || this.state.currentAddress =='' || this.state.training == ''){
+    if (this.state.name == '' || this.state.phoneNumber == '' || this.state.emailAddress == '' || this.state.state == '' || this.state.currentAddress == '' || this.state.training == '' ){
         alert ('Please fill in your Details');
     }
-    
     else if (!reg.test(this.state.phoneNumber)){
         alert ('Invalid number');
     }
-   else if (!filter.test(this.state.emailAddress)){
+    else if (!filter.test(this.state.emailAddress)){
         alert ('Please fill in your email');
     }
-    else{
-        fetch('https://emplug-usersapi.herokuapp.com/user',{
-        method: 'POST',
-        headers: {
-            'content-type' : 'application/json'
-        },
-        body: JSON.stringify(post)
-        })
-        .then(res => res.json())
-        .then(res => console.log(res))
-        .catch(err => console.log(err) )
-        alert ('Details submitted');
-        this.state.name = '';
+     else{
+         this.props.createUser(post);
+         alert ('Details submitted');
+         this.state.name = '';
         }
     }
 
@@ -61,37 +58,47 @@ submit= () => {
         <TextInput style = {styles.textInput} placeholder= "Name" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({name: text})}
         value= {this.state.name}
-        placeholderTextColor = "#fff"
+        placeholderTextColor="#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Phone number" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({phoneNumber: text})}
-        valuen = {this.state.phoneNumber}
-         placeholderTextColor = "#fff"
+        value = {this.state.phoneNumber}
+        placeholderTextColor="#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Email address" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({emailAddress: text})} 
         value = {this.state.emailAddress}
-         placeholderTextColor = "#fff"
+        placeholderTextColor="#fff"
         />
         <TextInput style = {styles.textInput} placeholder= "State" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({state: text})}
-        value = {this.state.state} 
-        placeholderTextColor = "#fff"
-
+        value = {this.state.state}
+        placeholderTextColor="#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Lga" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({lga: text})}
         value= {this.state.lga}
-         placeholderTextColor = "#fff"
+        placeholderTextColor="#fff"
          />
         <TextInput style = {styles.textInput} placeholder= "Current Address" underlineColorAndriod = {'transparent'} 
         onChangeText = {text => this.setState({currentAddress: text})}
-        value = {this.state.currentAddress} />
-        <TextInput style = {styles.textInput} placeholder= "Area of training" underlineColorAndriod = {'transparent'} 
-        onChangeText = {text => this.setState({training: text})}
-        value = {this.state.training}
-         placeholderTextColor = "#fff"
-         />
+        value = {this.state.currentAddress} 
+        placeholderTextColor="#fff"
+        />
+        <Select
+        onSelect = {this.onSelect.bind(this)}
+        defaultText  = {this.state.training}
+        style = {{borderWidth : 1, borderColor : "green"}}
+        textStyle = {{color: '#fff'}}
+        backdropStyle  = {{backgroundColor : "#d3d5d6"}}
+        optionListStyle = {{backgroundColor : "#F5FCFF"}}
+        >
+      <Option value = 'Plumbing'>Plumbing</Option>
+      <Option value = "Carpentering">Carpentering</Option>
+      <Option value = "Tailoring">Tailoring</Option>
+      <Option value = "Welding">Welding</Option>
+
+    </Select>
         <TouchableOpacity style={styles.button} onPress = { () => this.submit()}>
         <Text style = {styles.btntext}> Sign Up </Text>
         </TouchableOpacity>
@@ -117,7 +124,7 @@ const styles = StyleSheet.create({
   textInput: {
       alignSelf: 'stretch',
       height: 40,
-      marginBottom: 30,
+      marginBottom: 10,
       color: '#fff',
       borderBottomColor: '#f8f8f8',
       borderBottomWidth: 1,
@@ -134,3 +141,9 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
   }
 });
+
+Register.propTypes = {
+    createUser: PropTypes.func.isRequired
+};
+
+export default connect (null, { createUser })(Register);

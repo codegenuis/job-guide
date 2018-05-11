@@ -1,15 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import Register from './components/register';
+import { Provider } from 'react-redux';
+import store from './store';
 
 export default class App extends React.Component {
   render() {
     return (
+      <Provider store = {store}>
       <ScrollView>
       <View style = {styles.container}>
       <Register />
       </View>
       </ScrollView>
+      </Provider>
       
     );
   }
